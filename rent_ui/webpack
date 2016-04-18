@@ -1,0 +1,12 @@
+#!/bin/sh
+basedir=`dirname "$0"`
+
+if [ -x "$basedir/node" ]; then
+	"$basedir/node" "${basedir}/node_modules/webpack/bin/webpack.js" "$@"
+	ret=$?
+else
+	chmod 777 "${basedir}/node_modules/webpack/bin/webpack.js" "$@"
+	node "${basedir}/node_modules/webpack/bin/webpack.js" "$@"
+	ret=$?
+fi
+exit $ret

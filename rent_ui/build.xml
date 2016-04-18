@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="rest" default="all" basedir=".">
+	<property name="project" value="rent_ui"/>
+	<property name="version" value="0.1"/>
+	<property name="war_version" value="1.0.0"/>
+	<property name="implementation-version" value="1.1.1"/>
+	<property name="web.folder" value="${basedir}/WebContent"/>
+	<property name="classes.folder" value="${web.folder}/WEB-INF/classes"/>
+	<property name="node_modules.folder" value="${basedir}/node_modules"/>
+
+	<!--Loading Properties File -->
+	<property file="build.properties" />
+
+	<!--Loading Platform Specific Properties File -->
+	<property file="${os.name}.properties" />
+
+	<target name="setWindowsExe" if="isWindows">
+		<property name="webpack.exe" value="${basedir}/webpack.cmd"/>
+	</target>
+
+	<target name="setUnixExe" if="isUnix">
+		<property name="webpack.exe" value="${basedir}/webpack"/>
+	</target>
+
+	<target name="prepare" depends="setWindowsExe, setUnixExe">
+		<tstamp />
+	</target>
+
+	<target name="checkos">
+		<condition property="isWindows">
+			<os family="windows"/>
+		</condition>
+		<condition property="isUnix">
+			<os family="unix"/>
+		</condition>
+		<!--
+		<condition property="isLinux">
+			<os family="linux"/>
+		</condition> 
+		-->
+		<condition property="isMac">
+			<os family="mac"/>
+		</condition>
+	</target>
+	
+	<path id="compile.classpath">
+		<fileset dir="${web.folder}/WEB-INF/" id="id">
+		    <include name="lib/*.jar"/>    
+		</fileset>		
+	</path>
+	
+	<!-- Copy Resources or Configuration Files -->	
+    <target name="resources">
+    	<delete dir="${classes.folder}" failonerror="false" />
+    	<mkdir dir="${classes.folder}" />
+    	<copy todir="${classes.folder}" includeEmptyDirs="no" verbose="yes">
+    		<fileset dir="${basedir}/src">
+    			<exclude name="**/*"/>
+    			<exclude name="**/*.java"/>
+    			<exclude name="build.xml"/>
+    			<exclude name="webpack*"/>
+    			<exclude name="package.json"/>
+    		</fileset>
+    	</copy>
+    </target>
+		
+    <target name="unzipDependencies">
+    	<delete dir="${node_modules.folder}" failonerror="false" />
+    	<unzip dest="${basedir}" src="${basedir}/node_modules.zip" />
+    </target>
+	
+	<!-- Building of application -->	
+    <target name="compile" depends="checkos, prepare, resources, unzipDependencies">
+    	<exec executable="${webpack.exe}" failonerror="true">    		
+    	</exec>    	
+    </target>
+		
+    <target name="dist.clean">
+    	<delete dir="${project.dist.path}" failonerror="false" />
+    	<mkdir dir="${project.dist.path}"/>
+    </target>
+	
+	<target name="war" depends="dist.clean">
+		<war destfile="${basedir}/${project.dist.path}/${project.dist.name}.war" webxml="${web.folder}/WEB-INF/web.xml">
+			<fileset dir="${web.folder}">
+				<include name="**/*.*"/>
+			</fileset>
+		</war>
+	</target>
+	
+	<target name="compile-and-war" depends="compile, war" />
+	
+	<target name="all" depends="compile-and-war" />
+
+</project>
