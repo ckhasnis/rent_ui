@@ -10,10 +10,10 @@ var Landing = React.createClass({
   render: function() {
     return(      
         <div className="container">
-		      <div className="jumbotron">
-		        <h1>Hello, Punam!</h1>
-		        <span className="glyphicon glyphicon-heart" /><p> Will you be my business partner ?</p>
-		        <p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+		      <div className="rentotron">
+		        <h1>Hi, There!</h1>
+		        <p> What would you like to rent today ?</p>
+		        <p><a className="btn btn-default outline" href="#" role="button">HOW IT WORKS</a></p>
 		      </div>
         </div>
     );

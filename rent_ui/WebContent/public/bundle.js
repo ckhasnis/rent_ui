@@ -37884,25 +37884,24 @@
 	      { className: 'container' },
 	      React.createElement(
 	        'div',
-	        { className: 'jumbotron' },
+	        { className: 'rentotron' },
 	        React.createElement(
 	          'h1',
 	          null,
-	          'Hello, Punam!'
+	          'Hi, There!'
 	        ),
-	        React.createElement('span', { className: 'glyphicon glyphicon-heart' }),
 	        React.createElement(
 	          'p',
 	          null,
-	          ' Will you be my business partner ?'
+	          ' What would you like to rent today ?'
 	        ),
 	        React.createElement(
 	          'p',
 	          null,
 	          React.createElement(
 	            'a',
-	            { className: 'btn btn-primary btn-lg', href: '#', role: 'button' },
-	            'Learn more'
+	            { className: 'btn btn-default outline', href: '#', role: 'button' },
+	            'HOW IT WORKS'
 	          )
 	        )
 	      )
